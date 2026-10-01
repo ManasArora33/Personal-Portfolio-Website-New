@@ -2,17 +2,68 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 import { profile } from "@/lib/portfolio-data";
 
+type SubmissionState = {
+  type: "idle" | "sending" | "success" | "error";
+  message: string;
+};
+
+const initialForm = { name: "", email: "", message: "" };
+
 export function Contact() {
-  const [status, setStatus] = useState("");
+  const [formData, setFormData] = useState(initialForm);
+  const [status, setStatus] = useState<SubmissionState>({ type: "idle", message: "" });
   const reduceMotion = useReducedMotion();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+    if (status.type !== "idle") setStatus({ type: "idle", message: "" });
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus(
-      "Your message looks ready. Direct sending is not connected yet, so please use the email link beside the form.",
-    );
+
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus({
+        type: "error",
+        message: "The contact form is not configured yet. Please use the direct email link.",
+      });
+      return;
+    }
+
+    setStatus({ type: "sending", message: "Sending your message..." });
+
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          reply_to: formData.email,
+          to_name: profile.name,
+          message: formData.message,
+        },
+        { publicKey },
+      );
+      setFormData(initialForm);
+      setStatus({
+        type: "success",
+        message: "Message sent. Thanks for reaching out — I’ll get back to you soon.",
+      });
+    } catch {
+      setStatus({
+        type: "error",
+        message: "The message could not be sent. Please try again or use the direct email link.",
+      });
+    }
   };
 
   return (
@@ -43,25 +94,59 @@ export function Contact() {
         viewport={{ once: true, amount: 0.12 }}
         transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
       >
-        <form className="contact-form" onSubmit={handleSubmit} data-cursor="form">
-          <p className="form-note">Form preview / direct sending is being connected</p>
+        <form
+          className="contact-form"
+          onSubmit={handleSubmit}
+          data-cursor="form"
+          aria-busy={status.type === "sending"}
+        >
+          <p className="form-note">Messages are delivered through EmailJS</p>
           <div className="field-row">
             <label htmlFor="name">Your name</label>
-            <input id="name" name="name" type="text" placeholder="Name" autoComplete="name" required />
+            <input
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Name"
+              autoComplete="name"
+              value={formData.name}
+              onChange={handleChange}
+              disabled={status.type === "sending"}
+              required
+            />
           </div>
           <div className="field-row">
             <label htmlFor="email">Email address</label>
-            <input id="email" name="email" type="email" placeholder="you@example.com" autoComplete="email" required />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              autoComplete="email"
+              value={formData.email}
+              onChange={handleChange}
+              disabled={status.type === "sending"}
+              required
+            />
           </div>
           <div className="field-row">
             <label htmlFor="message">What are you building?</label>
-            <textarea id="message" name="message" placeholder="A short project outline..." rows={5} required />
+            <textarea
+              id="message"
+              name="message"
+              placeholder="A short project outline..."
+              rows={5}
+              value={formData.message}
+              onChange={handleChange}
+              disabled={status.type === "sending"}
+              required
+            />
           </div>
-          <button className="button button--dark" type="submit">
-            Check message
+          <button className="button button--dark" type="submit" disabled={status.type === "sending"}>
+            {status.type === "sending" ? "Sending..." : "Send message"}
           </button>
-          <p className="form-status" role="status" aria-live="polite">
-            {status}
+          <p className="form-status" data-state={status.type} role="status" aria-live="polite">
+            {status.message}
           </p>
         </form>
 

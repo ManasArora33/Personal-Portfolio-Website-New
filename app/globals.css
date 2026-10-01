@@ -209,6 +209,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .button--paper:hover { box-shadow: 6px 6px 0 var(--signal); }
 .button--dark { background: var(--ink); color: var(--paper-bright); }
 .button--dark:hover { box-shadow: 6px 6px 0 #7d725f; }
+.button:disabled { opacity: 0.58; transform: none; box-shadow: none; cursor: wait; }
 .text-link { padding: 0.7rem 0; border-bottom: 1px solid var(--muted); font-size: 0.82rem; }
 .text-link:hover { color: var(--signal); border-color: var(--signal); }
 
@@ -419,6 +420,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .field-row input::placeholder, .field-row textarea::placeholder { color: #6d695f; }
 .contact-form .button { margin-top: 2rem; }
 .form-status { min-height: 3rem; max-width: 36rem; margin-top: 1.5rem; color: #4c4b44; font-size: 0.82rem; line-height: 1.5; }
+.form-status[data-state="success"] { color: #345000; font-weight: 700; }
+.form-status[data-state="error"] { color: #9e2525; font-weight: 700; }
+.form-status[data-state="sending"] { color: #4f5d00; }
+.field-row input:disabled, .field-row textarea:disabled { opacity: 0.6; }
 .contact-details { padding-left: 4rem; }
 .contact-details > p { max-width: 28rem; margin: 0; font-family: var(--font-bodoni-moda), serif; font-size: 1.8rem; line-height: 1.35; }
 .contact-email { display: inline-block; max-width: 100%; margin-top: 3rem; padding-bottom: 0.35rem; border-bottom: 2px solid var(--ink); overflow-wrap: anywhere; font-weight: 700; }
