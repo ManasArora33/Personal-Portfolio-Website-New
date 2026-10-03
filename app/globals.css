@@ -21,11 +21,12 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+html { scroll-behavior: smooth; scroll-padding-top: 6rem; overflow-x: clip; }
 
 body {
   margin: 0;
-  overflow-x: hidden;
+  max-width: 100%;
+  overflow-x: clip;
   background: var(--ink);
   color: var(--paper-bright);
   font-family: var(--font-space-grotesk), sans-serif;
@@ -174,7 +175,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   position: relative;
   display: flex;
   width: min(100%, var(--content-width));
-  min-height: 94svh;
+  min-height: 100svh;
   margin: 0 auto;
   padding: 8.5rem var(--page-padding) 3rem;
   flex-direction: column;
@@ -184,10 +185,8 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .hero-kicker { display: flex; padding-bottom: 1rem; border-bottom: 1px solid var(--rule-light); justify-content: space-between; color: var(--muted); font-size: 0.72rem; text-transform: uppercase; }
 .hero-grid { position: relative; z-index: 1; display: grid; min-height: 60vh; grid-template-columns: 1fr; align-items: center; text-align: center; }
 .hero-copy { width: min(100%, 54rem); margin: 0 auto; }
-.hero-sphere-backdrop { position: absolute; z-index: 0; top: 50%; left: 50%; width: min(76vw, 42rem); aspect-ratio: 1; translate: -50% -50%; opacity: 0.38; pointer-events: none; filter: blur(0.2px); }
-.hero-sphere-backdrop .sphere-canvas { background: radial-gradient(circle at center, rgba(55, 65, 51, 0.28), transparent 64%); }
-.hero-sphere-backdrop .sphere-canvas::before, .hero-sphere-backdrop .sphere-canvas::after { border-color: rgba(110, 120, 113, 0.07); }
-.hero-sphere-backdrop .sphere-reticle, .hero-sphere-backdrop .sphere-coordinate { display: none; }
+.hero-atmosphere { position: absolute; z-index: 0; inset: 0; overflow: hidden; background: radial-gradient(ellipse at center, rgba(42, 53, 104, 0.14), transparent 44%), radial-gradient(ellipse at center, transparent 48%, rgba(8, 9, 8, 0.72) 100%); }
+.hero-particle-field { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: auto; }
 .hero-kicker, .scroll-cue { position: relative; z-index: 1; }
 .hero-intro { margin: 0 0 0.9rem; color: var(--signal); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 .hero h1 { margin: 0; font-size: clamp(4.8rem, 10vw, 7.6rem); font-weight: 600; line-height: 0.86; letter-spacing: -0.055em; }
@@ -275,6 +274,11 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 @keyframes orbit-inner {
   to { transform: translate(-50%, -50%) rotateY(64deg) rotateZ(360deg); }
+}
+
+@keyframes atmosphere-drift {
+  from { transform: translate3d(-1.5rem, 0, 0) scale(0.95); }
+  to { transform: translate3d(1.5rem, 0.75rem, 0) scale(1.05); }
 }
 
 .paper-section, .contact-section {
@@ -491,11 +495,10 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .nav-utilities { display: none; }
   .site-nav { grid-template-columns: 1fr auto; }
   .menu-toggle { display: block; }
-  .hero { min-height: auto; padding-top: 7.5rem; padding-bottom: 2rem; }
+  .hero { min-height: 100svh; padding-top: 7.5rem; padding-bottom: 2rem; }
   .hero-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .hero-copy { padding-top: 3rem; }
   .hero h1 { font-size: 5.2rem; }
-  .hero-sphere-backdrop { width: min(88vw, 34rem); opacity: 0.58; }
   .scroll-cue { margin-top: 1rem; }
   .paper-section, .experience-section, .education-section, .skills-section, .work-section, .archive-section, .contact-section { padding-top: 5rem; padding-bottom: 5rem; }
   .about-lead, .education-heading, .work-heading, .contact-heading { grid-template-columns: 1fr; gap: 1.5rem; }
@@ -545,7 +548,6 @@ button, a { -webkit-tap-highlight-color: transparent; }
   .hero-summary { font-size: 1rem; }
   .hero-actions { align-items: stretch; flex-direction: column; gap: 0.75rem; }
   .text-link { width: fit-content; }
-  .hero-sphere-backdrop { width: 25rem; max-width: 112vw; opacity: 0.5; }
   .paper-note { width: min(100%, 15rem); margin: 4rem auto 0 0; }
   .about-lead h2, .work-heading h2, .contact-heading h2, .education-heading h2, .skills-heading h2, .archive-heading h2 { font-size: 2.5rem; }
   .experience-intro h2 { font-size: 2.5rem; }

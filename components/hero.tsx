@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { profile } from "@/lib/portfolio-data";
-import { SentientSphere } from "@/components/sentient-sphere";
+import { HeroParticleField } from "@/components/hero-particle-field";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -86,15 +86,9 @@ export function Hero() {
 
       </motion.div>
 
-      <motion.div
-        className="hero-sphere-backdrop"
-        initial={reduceMotion ? false : { opacity: 0, scale: 0.82 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-        aria-hidden="true"
-      >
-        <SentientSphere />
-      </motion.div>
+      <div className="hero-atmosphere" aria-hidden="true">
+        <HeroParticleField />
+      </div>
 
       <motion.a
         className="scroll-cue"
