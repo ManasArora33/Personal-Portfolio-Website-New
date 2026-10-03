@@ -6,7 +6,7 @@ export function SkillsMarquee() {
     <section id="skills" className="skills-section" aria-labelledby="skills-title">
       <Reveal className="skills-heading">
         <div className="section-index section-index--dark">
-          <span>04</span>
+          <span>03</span>
           <span>Toolkit</span>
         </div>
         <h2 id="skills-title">Technologies in motion.</h2>

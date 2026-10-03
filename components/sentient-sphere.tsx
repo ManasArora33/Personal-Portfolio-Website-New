@@ -31,10 +31,10 @@ const fragmentShader = `
   void main() {
     float edge = 1.0 - abs(dot(normalize(vNormal), vec3(0.0, 0.0, 1.0)));
     float pulse = 0.78 + sin(uTime * 0.8) * 0.12;
-    vec3 paper = vec3(0.96, 0.94, 0.89);
-    vec3 signal = vec3(0.84, 1.0, 0.25);
+    vec3 paper = vec3(0.12, 0.14, 0.14);
+    vec3 signal = vec3(0.28, 0.34, 0.12);
     vec3 color = mix(paper, signal, clamp(edge + vWave * 2.0, 0.0, 1.0));
-    gl_FragColor = vec4(color * pulse, 0.82);
+    gl_FragColor = vec4(color * pulse, 0.7);
   }
 `;
 
@@ -67,7 +67,7 @@ function SphereMesh({ animate }: { animate: boolean }) {
       </mesh>
       <mesh scale={0.74} rotation={[0.4, 0.3, 0]}>
         <icosahedronGeometry args={[1.72, 6]} />
-        <meshBasicMaterial color="#d6ff3f" wireframe transparent opacity={0.14} />
+        <meshBasicMaterial color="#39451a" wireframe transparent opacity={0.22} />
       </mesh>
     </group>
   );

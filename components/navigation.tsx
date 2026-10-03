@@ -10,33 +10,34 @@ export function Navigation() {
   const [activeHref, setActiveHref] = useState("#about");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
+    const trackedSections = navigation
+      .map((item) => ({ ...item, element: document.querySelector(item.href) }))
+      .filter((item): item is typeof item & { element: Element } => Boolean(item.element));
+
+    const updateNavigationState = () => {
+      setScrolled(window.scrollY > 24);
+
+      // The active section is the last tracked section that has reached the
+      // navigation's scroll threshold. This remains stable across sections
+      // with different heights and also works when scrolling quickly.
+      const sectionThreshold = 120;
+      const currentSection = trackedSections
+        .filter(({ element }) => element.getBoundingClientRect().top <= sectionThreshold)
+        .at(-1);
+
+      setActiveHref(currentSection?.href ?? navigation[0].href);
+    };
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setMenuOpen(false);
     };
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    updateNavigationState();
+    window.addEventListener("scroll", updateNavigationState, { passive: true });
     window.addEventListener("keydown", handleKeyDown);
 
-    const sections = navigation
-      .map((item) => document.querySelector(item.href))
-      .filter((section): section is Element => Boolean(section));
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) setActiveHref(`#${visible.target.id}`);
-      },
-      { rootMargin: "-25% 0px -60%", threshold: [0.05, 0.25, 0.5] },
-    );
-    sections.forEach((section) => observer.observe(section));
-
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", updateNavigationState);
       window.removeEventListener("keydown", handleKeyDown);
-      observer.disconnect();
     };
   }, []);
 
@@ -55,7 +56,7 @@ export function Navigation() {
           <span className="wordmark-symbol">M/A</span>
           <span className="wordmark-copy">
             <strong>{profile.name}</strong>
-            <small>Product & AI engineer</small>
+            <small>{profile.role}</small>
           </span>
         </a>
 
@@ -65,6 +66,7 @@ export function Navigation() {
               key={item.href}
               href={item.href}
               className={activeHref === item.href ? "nav-link--active" : ""}
+              aria-current={activeHref === item.href ? "page" : undefined}
             >
               <span>0{index + 1}</span>
               {item.label}
@@ -107,6 +109,7 @@ export function Navigation() {
               <motion.a
                 key={item.href}
                 href={item.href}
+                aria-current={activeHref === item.href ? "page" : undefined}
                 onClick={() => setMenuOpen(false)}
                 initial={{ opacity: 0, x: -24 }}
                 animate={{ opacity: 1, x: 0 }}

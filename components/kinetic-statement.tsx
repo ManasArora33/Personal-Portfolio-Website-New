@@ -22,7 +22,7 @@ export function KineticStatement() {
   return (
     <section ref={sectionRef} className="kinetic-section" aria-label="Design philosophy">
       <div className="kinetic-meta">
-        <span>Manifesto / 01</span>
+        <span>Manifesto</span>
         <span>Scroll to shift perspective</span>
       </div>
       <motion.div className="kinetic-track" style={{ x: reduceMotion ? 0 : x }}>

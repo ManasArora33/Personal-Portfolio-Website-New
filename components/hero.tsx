@@ -67,8 +67,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.62, ease: [0.16, 1, 0.3, 1] }}
           >
-            I build scalable products across interface, backend, and data, with a focus on
-            practical AI-powered systems.
+            {profile.positioning}
           </motion.p>
           <motion.div
             className="hero-actions"
@@ -79,22 +78,22 @@ export function Hero() {
             <a className="button button--paper" href="#work">
               Explore selected work
             </a>
-            <a className="text-link" href="#contact">
+            <a className="button button--outline" href="#contact">
               Start a conversation <span aria-hidden="true">↘</span>
             </a>
           </motion.div>
         </div>
 
-        <motion.div
-          className="hero-visual-shell"
-          initial={reduceMotion ? false : { opacity: 0, scale: 0.76, rotate: -8 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1.15, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <SentientSphere />
-          <span className="visual-caption visual-caption--top">Sentient interface / 01</span>
-          <span className="visual-caption visual-caption--bottom">Move pointer to distort</span>
-        </motion.div>
+      </motion.div>
+
+      <motion.div
+        className="hero-sphere-backdrop"
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.82 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        aria-hidden="true"
+      >
+        <SentientSphere />
       </motion.div>
 
       <motion.a

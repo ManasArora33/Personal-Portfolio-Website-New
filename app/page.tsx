@@ -1,7 +1,6 @@
 import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { CustomCursor } from "@/components/custom-cursor";
-import { EducationTimeline } from "@/components/education-timeline";
 import { ExperienceSection } from "@/components/experience-section";
 import { FeaturedProjects } from "@/components/featured-projects";
 import { Footer } from "@/components/footer";
@@ -21,7 +20,6 @@ export default function Home() {
         <About />
         <KineticStatement />
         <ExperienceSection />
-        <EducationTimeline />
         <SkillsMarquee />
         <FeaturedProjects />
         <ProjectArchive />

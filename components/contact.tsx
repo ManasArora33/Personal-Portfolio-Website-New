@@ -69,7 +69,7 @@ export function Contact() {
   return (
     <section id="contact" className="contact-section" aria-labelledby="contact-title">
       <div className="section-index">
-        <span>06</span>
+        <span>05</span>
         <span>Contact</span>
       </div>
 

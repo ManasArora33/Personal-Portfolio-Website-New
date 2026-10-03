@@ -13,9 +13,9 @@ const bodoniModa = Bodoni_Moda({
 });
 
 export const metadata: Metadata = {
-  title: "Manas Arora | Product & AI Software Engineer",
+  title: "Manas Arora | Full-Stack Software Engineer",
   description:
-    "Portfolio of Manas Arora, a product-focused software engineer building scalable web systems and practical AI-powered experiences.",
+    "Manas Arora — Full-Stack Software Engineer | Backend, Cloud & AI. Building scalable software products and AI-powered systems.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

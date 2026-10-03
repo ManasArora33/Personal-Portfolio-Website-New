@@ -11,7 +11,7 @@ export function FeaturedProjects() {
   return (
     <section id="work" className="work-section" aria-labelledby="work-title">
       <Reveal className="section-index">
-        <span>05</span>
+        <span>04</span>
         <span>Selected work</span>
       </Reveal>
 

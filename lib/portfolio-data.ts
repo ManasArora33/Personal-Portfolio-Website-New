@@ -12,7 +12,9 @@ export type Project = {
 
 export const profile = {
   name: "Manas Arora",
-  role: "Product & AI Software Engineer",
+  role: "Full-Stack Software Engineer",
+  headline: "Full-Stack Software Engineer | Backend, Cloud & AI",
+  positioning: "Building scalable software products and AI-powered systems.",
   location: "India",
   email: "manasarora33179@gmail.com",
   github: "https://github.com/ManasArora33",
